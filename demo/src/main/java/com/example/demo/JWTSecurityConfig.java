@@ -5,7 +5,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.*;
 import org.springframework.security.config.annotation.web.configuration.*;
 
-@Configuration
+//@Configuration
+@EnableWebSecurity
 public class JWTSecurityConfig extends WebSecurityConfigurerAdapter {
  
     @Override
