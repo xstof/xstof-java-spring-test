@@ -26,7 +26,8 @@
 		"vscjava.vscode-java-pack",
 		"vscjava.vscode-spring-initializr",
 		"Pivotal.vscode-spring-boot",
-		"vscjava.vscode-spring-boot-dashboard"
+		"vscjava.vscode-spring-boot-dashboard",
+		"humao.rest-client"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
