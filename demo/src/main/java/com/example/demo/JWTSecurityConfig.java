@@ -13,7 +13,7 @@ public class JWTSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
           .authorizeRequests(authz -> authz
-            .antMatchers(HttpMethod.GET, "/foo").anonymous()
+            .antMatchers(HttpMethod.GET, "/foo").authenticated()
             //.antMatchers(HttpMethod.GET, "/foo/**").hasAuthority("SCOPE_read")
             //.antMatchers(HttpMethod.POST, "/foo").hasAuthority("SCOPE_write")
             .anyRequest().anonymous())
