@@ -17,4 +17,8 @@ public class Greeting {
 	public String getContent() {
 		return content;
 	}
+
+	public String getSpringVersion(){
+		return org.springframework.core.SpringVersion.getVersion();
+	}
 }
