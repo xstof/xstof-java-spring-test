@@ -26,7 +26,9 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImtnMkxZczJUME
 # validations:
 # - works: validates issuer
 # - works: validates 'write' scope when doing: .antMatchers(HttpMethod.GET, "/foo").hasAnyAuthority("SCOPE_write")
+# - works: validate token expiration and validate token not before
 # - test: validates role
+# - test: validates audience
 
 # resources:
 # - https://docs.spring.io/spring-security/site/docs/5.4.1/reference/html5/#oauth2resourceserver-jwt-authorization-extraction

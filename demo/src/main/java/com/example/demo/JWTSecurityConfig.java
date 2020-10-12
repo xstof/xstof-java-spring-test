@@ -23,7 +23,10 @@ public class JWTSecurityConfig extends WebSecurityConfigurerAdapter {
           //.antMatchers(HttpMethod.GET, "/foo/**").hasAuthority("SCOPE_read")
           //.antMatchers(HttpMethod.POST, "/foo").hasAuthority("SCOPE_write")
           .anyRequest().anonymous())
-        .oauth2ResourceServer(oauth2 -> oauth2.jwt());
+        .oauth2ResourceServer(oauth2 -> oauth2.jwt()
+                                              .jwtAuthenticationConverter(
+                                                AADJwtAuthenticationConverter()
+                                              ));
   }
 
   @Bean
