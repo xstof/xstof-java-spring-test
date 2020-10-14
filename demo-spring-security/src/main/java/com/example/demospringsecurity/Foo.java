@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demospringsecurity;
 
 public class Foo {
     private double id;
