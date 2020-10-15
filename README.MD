@@ -4,6 +4,8 @@
 
 ### Using Spring Security natively
 
+#### Use of ResourceServer
+
 - Use [Spring Security ResourceServer](https://docs.spring.io/spring-security/site/docs/5.4.1/reference/html5/#oauth2resourceserver) to act upon **scopes** as authorities by default
 - by default this will **not** take into account any AAD roles
 - configure, [as documented](https://docs.spring.io/spring-security/site/docs/5.4.1/reference/html5/#specifying-the-authorization-server), below sample with in `application.properties` the issuer-uri as prefix for the oidc metadata endpoint
@@ -80,7 +82,7 @@ public class JWTSecurityConfig extends WebSecurityConfigurerAdapter {
 }
 ~~~
 
-### Working with roles
+#### Working with roles
 
 By default the Spring Security ResouceServer is not aware of AAD role claims and only deals with scopes.  To customize this behavior in Spring, we can leverage [`JwtAuthenticationConverter`](https://docs.spring.io/spring-security/site/docs/5.4.1/reference/html5/#oauth2resourceserver-jwt-authorization-extraction) to convert the Jwt into a collection of granted authorities.
 
@@ -122,7 +124,7 @@ public class JWTSecurityConfig extends WebSecurityConfigurerAdapter {
 }
 ~~~
 
-### Using a simple test controller to see what scopes or roles a token contains:
+#### Using a simple test controller to see what scopes or roles a token contains:
 
 The below sample code leverages the [`Authentication`](https://docs.spring.io/spring-security/site/docs/5.4.1/reference/html5/#servlet-authentication-authentication)
 
@@ -137,3 +139,51 @@ public class MeController {
     }
 }
 ~~~
+
+
+### Using the AAD SDK
+
+The [Java on Azure developer center is here](https://docs.microsoft.com/en-us/azure/developer/java/)
+Specifically for Spring Boot, find on GitHub the [Azure AD Spring Boot Starter](https://github.com/Azure/azure-sdk-for-java/tree/master/sdk/spring/azure-spring-boot-starter-active-directory)
+
+The scenario at hand here (protecting a Web API with incoming tokens from AAD) is documented as ["Authenticate stateless APIs using AAD app roles"](https://github.com/Azure/azure-sdk-for-java/tree/master/sdk/spring/azure-spring-boot-starter-active-directory#authenticate-stateless-apis-using-aad-app-roles)
+
+A sample for this package [is published here](https://github.com/Azure/azure-sdk-for-java/tree/master/sdk/spring/azure-spring-boot-samples/azure-spring-boot-sample-active-directory-stateless)
+
+Notes:
+- all released Azure Java maven packages are listed here: https://azure.github.io/azure-sdk/releases/latest/all/java.html
+- the latest package `azure ad spring boot starter client` version is `2.3.5` and [documented here](https://docs.microsoft.com/en-us/java/api/overview/azure/active-directory-spring-boot-starter-readme?view=azure-java-stable)
+
+Include the package:
+
+~~~xml
+<dependency>
+  <groupId>com.microsoft.azure</groupId>
+  <artifactId>azure-active-directory-spring-boot-starter</artifactId>
+</dependency>
+~~~
+
+Also make sure to add the following dependencies: 
+
+**Spring Boot Security**:
+
+~~~xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+~~~
+
+**TODO jose**
+
+~~~xml
+
+~~~
+
+Configure the application properties:
+
+~~~
+azure.activedirectory.session-stateless=true
+azure.activedirectory.client-id=xxxxxx-your-client-id-xxxxxx
+~~~
+
