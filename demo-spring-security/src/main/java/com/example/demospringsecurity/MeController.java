@@ -14,6 +14,9 @@ public class MeController {
 
     @GetMapping()
     public Object getInfoAboutMe(@CurrentSecurityContext(expression = "authentication") Authentication authentication){
+        if(authentication == null || authentication.getAuthorities() == null){
+            return "no authentication context found";
+        }
         return authentication.getAuthorities().toArray();
     }
 }
