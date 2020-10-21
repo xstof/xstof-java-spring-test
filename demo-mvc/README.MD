@@ -11,7 +11,6 @@ Implicit flow needs to be enabled for both id_token and access_token.  Best prac
 - a proper Authorization Code flow with secure backchannel, in which case the client secret is required
 - an Authorization Code flow + PKCE which then can be executed from the browser and where client secret is not required, this is typically applicable for a mobile device scenario or in case of a SPA application
 
-In this particular scenario example, the right choice seems to be first.  This is different from what the article recommends.
 
 ### Use of On-Behalf-Of
 
@@ -35,6 +34,6 @@ java.util.concurrent.ExecutionException: com.microsoft.aad.msal4j.MsalServiceExc
 
 ### Use of groups
 
-While the use of groups to make authorization decicions is not uncommon, we typically recomend customers to investigate AAD app roles instead.  This abstracts the application from being tied into certain group names.
+While the use of groups to make authorization decicions is not uncommon, we typically recomend customers to investigate AAD app roles instead.  This abstracts the application from being tied into certain groups.
 
 I assume the OBO flow is used to access group-membership for the user.  This is however not required, group membership [can be configured part of the token](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-optional-claims#configuring-groups-optional-claims).  Need to take into account [groups overage claim](https://docs.microsoft.com/en-us/azure/active-directory/develop/id-tokens#groups-overage-claim) though.

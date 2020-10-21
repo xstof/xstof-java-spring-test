@@ -39,6 +39,16 @@
             "mainClass": "com.example.demomvc.DemomvcApplication",
             "projectName": "demomvc",
             "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-DemoSpringSecurityApplication<demospringsecurity>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.example.demospringsecurity.DemoSpringSecurityApplication",
+            "projectName": "demospringsecurity",
+            "args": ""
         }
     ]
 }
