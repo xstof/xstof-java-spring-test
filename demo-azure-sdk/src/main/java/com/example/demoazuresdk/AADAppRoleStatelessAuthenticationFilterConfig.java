@@ -22,7 +22,9 @@ public class AADAppRoleStatelessAuthenticationFilterConfig extends WebSecurityCo
         http.csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-            .addFilterBefore(appRoleAuthFilter, UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(appRoleAuthFilter, UsernamePasswordAuthenticationFilter.class)
+            .authorizeRequests()
+            .anyRequest().authenticated();
     }
 
 }
