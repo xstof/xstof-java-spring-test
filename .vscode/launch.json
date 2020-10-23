@@ -29,6 +29,16 @@
             "mainClass": "com.example.demoazuresdk.DemoazuresdkApplication",
             "projectName": "demoazuresdk",
             "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-DemospringmvcApplication<demospringmvc>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.example.demospringmvc.DemospringmvcApplication",
+            "projectName": "demospringmvc",
+            "args": ""
         }
     ]
 }
