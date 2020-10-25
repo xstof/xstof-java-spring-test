@@ -54,7 +54,14 @@
         	<groupId>org.thymeleaf.extras</groupId>
         	<artifactId>thymeleaf-extras-springsecurity5</artifactId>
     	</dependency>
-	</dependencies>
+	
+		<!-- need this to get to "grantedauthority" and to work with roles: -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<!-- <version>5.1.6.RELEASE</version> -->
+		</dependency>
+ </dependencies>
 
 	<build>
 		<plugins>
