@@ -2,6 +2,8 @@ package com.example.demospringmvc;
 
 import java.util.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.*;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -11,9 +13,16 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
+// import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
+// import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
+// import org.springframework.security.oauth2.jwt.Jwt;
+// import org.springframework.security.oauth2.jwt.JwtDecoder;
+// import org.springframework.security.oauth2.jwt.JwtDecoders;
+// import org.springframework.security.oauth2.jwt.JwtValidators;
+// import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
 @Configuration
 @EnableWebSecurity
@@ -27,12 +36,6 @@ public class OAuth2LoginSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
             )
             .oauth2Login(Customizer.withDefaults());
-            //.oauth2Login( oauth2 -> oauth2.)
-            // .oauth2Login(oauth2 -> 
-            //     oauth2.userInfoEndpoint(userInfo -> 
-            //         userInfo.userAuthoritiesMapper(userAuthoritiesMapper())
-            //     )
-            // );
     }
 
     // work with AAD application roles:
@@ -40,6 +43,8 @@ public class OAuth2LoginSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     GrantedAuthoritiesMapper userAuthoritiesMapper() {
         return (authorities) -> {
+            Logger logger = LoggerFactory.getLogger(GrantedAuthoritiesMapper.class);
+
             Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
 
             authorities.forEach(authority -> {
@@ -61,20 +66,25 @@ public class OAuth2LoginSecurityConfig extends WebSecurityConfigurerAdapter {
                 } else if (SimpleGrantedAuthority.class.isInstance(authority)){
                     mappedAuthorities.add(authority);
                 } else if (OAuth2UserAuthority.class.isInstance(authority)) {
-                    // OAuth2UserAuthority oauth2UserAuthority = (OAuth2UserAuthority)authority;
-
-                    // Map<String, Object> userAttributes = oauth2UserAuthority.getAttributes();
-
-                    // // Object attributes = oauth2UserAuthority.getAttributes();
-                    // String a = "test";
-
-                    // Map the attributes found in userAttributes
-                    // to one or more GrantedAuthority's and add it to mappedAuthorities
-
                 }
             });
 
+            logger.info("The customized user authorities: {}", mappedAuthorities);
             return mappedAuthorities;
         };
     }
+
+    // @Bean
+    // JwtDecoder jwtDecoder() {
+    //     String issuerUri = "https://login.microsoftonline.com/3fd11e85-d8ce-4c7f-b6a0-816346615777/v2.0"
+    //     NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) JwtDecoders.fromOidcIssuerLocation(issuerUri);
+
+    //     OAuth2TokenValidator<Jwt> audienceValidator = new AudienceValidator("");
+    //     OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer();
+    //     OAuth2TokenValidator<Jwt> withAudience = new DelegatingOAuth2TokenValidator<>(withIssuer, audienceValidator);
+
+    //     jwtDecoder.setJwtValidator(withAudience);
+
+    //     return jwtDecoder;
+    // }
 }
