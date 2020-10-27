@@ -18,6 +18,7 @@ public class OAuth2LoginController {
 		model.addAttribute("userName", oauth2User.getName());
 		model.addAttribute("clientName", authorizedClient.getClientRegistration().getClientName());
 		model.addAttribute("userAttributes", oauth2User.getAttributes());
+		model.addAttribute("authorities", oauth2User.getAuthorities());
 		return "index";
 	}
 }
