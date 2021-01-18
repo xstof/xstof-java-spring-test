@@ -29,6 +29,16 @@
             "mainClass": "com.example.demospringmvc.DemospringmvcApplication",
             "projectName": "demospringmvc",
             "args": "--spring.profiles.active=dev"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Aad3authApplication<aad3auth>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "fta.identity.sample.aad3auth.Aad3authApplication",
+            "projectName": "aad3auth",
+            "args": "--spring.profiles.active=local"
         }
     ]
 }

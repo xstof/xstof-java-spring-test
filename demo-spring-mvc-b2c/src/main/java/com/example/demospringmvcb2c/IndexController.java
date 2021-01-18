@@ -1,4 +1,4 @@
-package main.java.com.example.demospringmvcb2c;
+package com.example.demospringmvcb2c;
 
 import javax.servlet.http.HttpServletRequest;
 
