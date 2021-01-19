@@ -24,7 +24,7 @@ public class IndexController {
         // @RegisteredOAuth2AuthorizedClient("azure") OAuth2AuthorizedClient authorizedClient){
 
         Logger logger = LoggerFactory.getLogger(IndexController.class);
-        logger.debug("authentication - entered home controller");
+        logger.info("authentication sample - entered home controller");
 
         //model.addAttribute("username", authentication.getName());
         model.addAttribute("username", "TEST");
@@ -56,9 +56,13 @@ public class IndexController {
         OAuth2AuthenticationToken authentication){
 
         Logger logger = LoggerFactory.getLogger(IndexController.class);
-        logger.debug("authentication - entered authenticated controller");
+        logger.info("authentication sample - entered authenticated controller");
 
+        model.addAttribute("authorities", authentication.getAuthorities().toArray());
         model.addAttribute("username", "TEST");
+
+        // AAD roles that come in the incoming id_token are not translated into an Authority by default; rather can be found in the "roles" attribute of the principal, as follows:
+        logger.info("authentication sample - roles that were found in attributes of principal: {}", authentication.getPrincipal().getAttribute("roles").toString());
 
         return "authenticated";
     }

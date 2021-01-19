@@ -6,6 +6,7 @@
 >
 > - Method annotations don't seem to work
 > - In the `configure` method, one cannot seem to configure ".anyRequest()" as this is already done by `super.configure(http)`
+> - AAD roles do not automatically translate into an Authority
 > - Is calling of `super.configure(http)` required?
 >
 
@@ -22,6 +23,15 @@ azure:
 When authcode is returned, redirect happens to: `/login/oauth2/code/{name of authorization client - in the sample: azure}`
 This is also how the app registration should be configured.
 
+### Authorities and Roles
+
+When no roles assigned to a user logging in, the default list of Authorities just includes `ROLE_USER`.
+When a role is assigned to the user logging in (for example a role with name `staff`), that will **NOT** show up as Authority however.  Rather one can fetch the role from the claims on the Principal, as follows:
+
+~~~java
+logger.info("roles found: {}", authentication.getPrincipal().getAttribute("roles").toString());
+~~~
+
 ## AAD Authorization (fetching OAuth2 Access Tokens)
 
 ## Troubleshooting
@@ -34,6 +44,9 @@ To run the app with the environment called `local`:
 **Tracing:**
 
 Run the application with tracing enabled: `./mvnw spring-boot:run -Dspring-boot.run.arguments=--logging.level.org.springframework=TRACE`
+
+**Using a proxy - THE BELOW DOES NOT WORK THOUGH IT SEEMS:**
+Run the application with proxy settings: `./mvnw spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=local" -Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=8888 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=8888`
 
 ## Resources
 
