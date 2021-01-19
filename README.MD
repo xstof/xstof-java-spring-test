@@ -26,7 +26,7 @@ This is also how the app registration should be configured.
 
 ## Troubleshooting
 
-** Make sure the correct enviroment is used: **
+**Make sure the correct enviroment is used:**
 
 To run the app with the environment called `local`:
 `./mvnw spring-boot:run -Dspring-boot.run.arguments="--logging.level.org.springframework=DEBUG --spring.profiles.active=local"`
@@ -37,4 +37,5 @@ Run the application with tracing enabled: `./mvnw spring-boot:run -Dspring-boot.
 
 ## Resources
 
+- [Implementation of Spring SDK in GH](https://github.com/Azure/azure-sdk-for-java/tree/master/sdk/spring/azure-spring-boot/src/main/java/com/azure/spring/aad/webapp)
 - [Announcement on AAD integration v3.0.0](https://spring.io/blog/2021/01/13/the-latest-on-azure-active-directory-integration)
