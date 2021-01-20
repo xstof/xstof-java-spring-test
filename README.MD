@@ -8,7 +8,7 @@
 > - In the `configure` method, one cannot seem to configure ".anyRequest()" as this is already done by `super.configure(http)`
 > - AAD roles do not automatically translate into an Authority (does not seem [to be implemented here](https://github.com/Azure/azure-sdk-for-java/blob/c92f8071a051b9b6212529ac86955c5e972b9f16/sdk/spring/azure-spring-boot/src/main/java/com/azure/spring/aad/webapp/AADOAuth2UserService.java#L54))
 > - Is calling of `super.configure(http)` required?
->
+> - Are groups supposed to be picked up and validated against?  Does not seem to work with login.
 
 Just authenticating with AAD does not require any authorization clients to be configured.  A configuration similar to the below is enough:
 
@@ -46,6 +46,8 @@ azure:
     user-group:
       allowed-groups: 7d9e422c-b567-41a8-8ea2-52d86344d794, writers
 ~~~
+
+It does not look like, with regular login, those groups are being picked up nor validated though.
 
 ## AAD Authorization (fetching OAuth2 Access Tokens)
 
