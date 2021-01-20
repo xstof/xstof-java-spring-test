@@ -1,26 +1,5 @@
 {
     "configurations": [
-        
-        {
-            "type": "java",
-            "name": "Spring Boot-DemoApplication<demo>",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
-            "mainClass": "com.example.demospringsecurity.DemoApplication",
-            "projectName": "demo-springsecurity",
-            "args": ""
-        },
-        {
-            "type": "java",
-            "name": "Spring Boot-DemoazuresdkApplication<demoazuresdk>",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
-            "mainClass": "com.example.demoazuresdk.DemoazuresdkApplication",
-            "projectName": "demoazuresdk",
-            "args": ""
-        },
         {
             "type": "java",
             "name": "Spring Boot-DemospringmvcApplication<demospringmvc>",
@@ -45,7 +24,8 @@
             "type": "java",
             "name": "Spring Boot-Aad3authApplication<aad3authwithgroups>",
             "request": "launch",
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/aad3auth-with-groups/",
+            // "cwd": "${workspaceFolder}",
             "console": "internalConsole",
             "mainClass": "fta.identity.sample.aad3authwithgroups.Aad3authApplication",
             "projectName": "aad3authwithgroups",
