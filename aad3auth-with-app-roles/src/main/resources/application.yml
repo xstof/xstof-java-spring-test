@@ -1,0 +1,5 @@
+azure:
+  activedirectory:
+    tenant-id: 3fd11e85-d8ce-4c7f-b6a0-816346615777
+    client-id: 35cea567-1674-40d4-95a4-e0bf5314f89f
+    client-secret: xxx

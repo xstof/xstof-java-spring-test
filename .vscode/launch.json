@@ -1,5 +1,6 @@
 {
     "configurations": [
+        
         {
             "type": "java",
             "name": "Spring Boot-DemoApplication<demo>",
@@ -38,6 +39,16 @@
             "console": "internalConsole",
             "mainClass": "fta.identity.sample.aad3auth.Aad3authApplication",
             "projectName": "aad3auth",
+            "args": "--spring.profiles.active=local"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Aad3authApplication<aad3authwithgroups>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "fta.identity.sample.aad3authwithgroups.Aad3authApplication",
+            "projectName": "aad3authwithgroups",
             "args": "--spring.profiles.active=local"
         }
     ]

@@ -1,12 +1,12 @@
 # Authentication and Authorization with Spring and Azure Active Directory
 
-## AAD Pure Authentication (logging in with OIDC)
+## AAD Pure Authentication (logging in with OIDC) - sample: "AAD3Auth"
 
 > **Remarks**
 >
 > - Method annotations don't seem to work
 > - In the `configure` method, one cannot seem to configure ".anyRequest()" as this is already done by `super.configure(http)`
-> - AAD roles do not automatically translate into an Authority
+> - AAD roles do not automatically translate into an Authority (does not seem [to be implemented here](https://github.com/Azure/azure-sdk-for-java/blob/c92f8071a051b9b6212529ac86955c5e972b9f16/sdk/spring/azure-spring-boot/src/main/java/com/azure/spring/aad/webapp/AADOAuth2UserService.java#L54))
 > - Is calling of `super.configure(http)` required?
 >
 
@@ -30,6 +30,21 @@ When a role is assigned to the user logging in (for example a role with name `st
 
 ~~~java
 logger.info("roles found: {}", authentication.getPrincipal().getAttribute("roles").toString());
+~~~
+
+### Authorities and Groups
+
+The groups who are allowed to log in can be defined in the application.yml as follows:
+
+~~~yml
+azure:
+  activedirectory:
+    tenant-id: xxx
+    client-id: xxx
+    client-secret: xxx
+    post-logout-redirect-uri: xxx
+    user-group:
+      allowed-groups: 7d9e422c-b567-41a8-8ea2-52d86344d794, writers
 ~~~
 
 ## AAD Authorization (fetching OAuth2 Access Tokens)
