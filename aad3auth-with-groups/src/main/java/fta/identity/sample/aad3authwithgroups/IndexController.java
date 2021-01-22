@@ -4,6 +4,10 @@ import java.util.Collection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
@@ -15,8 +19,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
+@EnableConfigurationProperties(com.azure.spring.autoconfigure.aad.AADAuthenticationProperties.class)
 @Controller
 public class IndexController {
+
+    @Value("${spring.profiles.active:Unknown}")
+    private String activeProfile;
 
     @GetMapping("/")
     //@PreAuthorize("permitAll()")
@@ -55,8 +63,7 @@ public class IndexController {
     //@PreAuthorize("isAuthenticated()")
     public String AuthenticatedPage(
         Model model,
-        OAuth2AuthenticationToken authentication,
-        com.azure.spring.autoconfigure.aad.AADAuthenticationProperties aadprops /* to get list of allowed groups */){
+        OAuth2AuthenticationToken authentication){
 
         Logger logger = LoggerFactory.getLogger(IndexController.class);
         logger.info("authentication sample - entered authenticated controller");
@@ -68,11 +75,15 @@ public class IndexController {
         logger.info("authentication sample - roles that were found in attributes of principal: {}", authentication.getPrincipal().getAttribute("roles").toString());
 
         // Get list of allowed groups that are configured:
-        List<String> allowedGroups = aadprops.getUserGroup().getAllowedGroups();
-        for (String group : allowedGroups) {
-            logger.info("authentication sample - found allowed group: {}", group);
-        }
+        //List<String> allowedGroups = aadprops.getUserGroup().getAllowedGroups();
+        // for (String group : allowedGroups) {
+        //     logger.info("authentication sample - found allowed group: {}", group);
+        // }
         
         return "authenticated";
     }
+
+    @Autowired
+    com.azure.spring.autoconfigure.aad.AADAuthenticationProperties aadprops;
+
 }
