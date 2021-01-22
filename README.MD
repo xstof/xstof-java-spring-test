@@ -4,11 +4,11 @@
 
 > **Remarks**
 >
-> - Method annotations don't seem to work
-> - In the `configure` method, one cannot seem to configure ".anyRequest()" as this is already done by `super.configure(http)`
+> - Method annotations don't seem to work (for example `@PreAuthorize("permitAll()")` on `AuthenticatedPage`)
+> - In the `configure` method, one cannot seem to configure ".anyRequest()" as this is already done by `super.configure(http)`.  In that case need to override everything?
 > - AAD roles do not automatically translate into an Authority (does not seem [to be implemented here](https://github.com/Azure/azure-sdk-for-java/blob/c92f8071a051b9b6212529ac86955c5e972b9f16/sdk/spring/azure-spring-boot/src/main/java/com/azure/spring/aad/webapp/AADOAuth2UserService.java#L54))
 > - Is calling of `super.configure(http)` required?
-> - Are groups supposed to be picked up and validated against?  Does not seem to work with login.
+> - Are groups supposed to be picked up and validated against?  Does not seem to work with the `id_token` from  pure OIDC login.  ([This line](https://github.com/Azure/azure-sdk-for-java/blob/c92f8071a051b9b6212529ac86955c5e972b9f16/sdk/spring/azure-spring-boot/src/main/java/com/azure/spring/aad/webapp/AADOAuth2UserService.java#L67) seems to suggest the logic only looks at the access token.)
 
 Just authenticating with AAD does not require any authorization clients to be configured.  A configuration similar to the below is enough:
 
