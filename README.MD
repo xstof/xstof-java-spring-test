@@ -8,7 +8,7 @@
 > - In the `configure` method, one cannot seem to configure ".anyRequest()" as this is already done by `super.configure(http)`.  In that case need to override everything?
 > - AAD roles do not automatically translate into an Authority (does not seem [to be implemented here](https://github.com/Azure/azure-sdk-for-java/blob/c92f8071a051b9b6212529ac86955c5e972b9f16/sdk/spring/azure-spring-boot/src/main/java/com/azure/spring/aad/webapp/AADOAuth2UserService.java#L54))
 > - Is calling of `super.configure(http)` required?
-> - Are groups supposed to be picked up and validated against?  Does not seem to work with the `id_token` from  pure OIDC login.  ([This line](https://github.com/Azure/azure-sdk-for-java/blob/c92f8071a051b9b6212529ac86955c5e972b9f16/sdk/spring/azure-spring-boot/src/main/java/com/azure/spring/aad/webapp/AADOAuth2UserService.java#L67) seems to suggest the logic only looks at the access token.)
+> - Are groups supposed to be picked up as authorities and validated against?  Does not seem to work with the `id_token` from  pure OIDC login.  ([This line](https://github.com/Azure/azure-sdk-for-java/blob/c92f8071a051b9b6212529ac86955c5e972b9f16/sdk/spring/azure-spring-boot/src/main/java/com/azure/spring/aad/webapp/AADOAuth2UserService.java#L67) seems to suggest the logic only looks at the access token.)
 
 Just authenticating with AAD does not require any authorization clients to be configured.  A configuration similar to the below is enough:
 
@@ -78,3 +78,10 @@ Run the application with proxy settings: `./mvnw spring-boot:run -Dspring-boot.r
 
 - [Implementation of Spring SDK in GH](https://github.com/Azure/azure-sdk-for-java/tree/master/sdk/spring/azure-spring-boot/src/main/java/com/azure/spring/aad/webapp)
 - [Announcement on AAD integration v3.0.0](https://spring.io/blog/2021/01/13/the-latest-on-azure-active-directory-integration)
+
+# Feedback Summary
+- Open issue with setup from Jelle whereby code cannot be exchanged for token it seems
+- Admin consent is still required; this requirement should be lifted.  We see that the redirect to AAD looks like `https://login.microsoftonline.com/3fd11e85-d8ce-4c7f-b6a0-816346615777/oauth2/v2.0/authorize?response_type=code&client_id=35cea567-1674-40d4-95a4-e0bf5314f89f&`**scope=**`openid%20profile%20https://graph.microsoft.com/User.Read%20`**https://graph.microsoft.com/Directory.AccessAsUser.All**`&state=4q8qJIOav-gZFikcYKff1tBoel3RRUurqW5GHk74y-k%3D&redirect_uri=http://localhost:8080/login/oauth2/code/azure&nonce=I4KxJdTh7c6_fYXv2f4W20IZnSYla4g_jW2ph9C1xiQ`
+  - the `AccessAsUser` scope is very broad, requires admin consent and should not be required for large majority of scenarios
+- Groups are not picked up or checked from id_token but probably rather from the access token.
+- 
