@@ -67,12 +67,14 @@ Get the docker ip for localhost to connect from the dev container into Fidler lo
 `nslookup host.docker.internal`
 
 Before being able to run through a proxy, the proxy's root cert needs to be trusted.  
-To get this certificate (through a proxy): `openssl s_client -connect www.microsoft.com:443 -servername www.microsoft.com -showcerts -proxy 192.168.65.2:8888`.  Then copy the cert details and put them in a .crt file.
+To get this certificate, export it from within Fiddler.
 
-Then .crt certificate can be imported like this:
-`$JAVA_HOME/bin/keytool -import -v -trustcacerts -alias fiddler -file /FiddlerRoot.cer -keystore cacerts.jks -keypass changeit -storepass changeit`
+Then .cer certificate can be imported like this:
+`$JAVA_HOME/bin/keytool.exe -import -file C:\Users\<Username>\Desktop\FiddlerRoot.cer -keystore FiddlerKeystore -alias Fiddler`
 
-Run the application with proxy settings: `./mvnw spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=local" -Dhttp.proxyHost=192.168.65.2 -Dhttp.proxyPort=8888 -Dhttps.proxyHost=192.168.65.2 -Dhttps.proxyPort=8888`
+Run the application with proxy settings: `./mvnw spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=local" -Dcom.sun.net.ssl.checkRevocation=false -Dtrust_all_cert=true -Dhttp.proxyHost=192.168.65.2 -Dhttp.proxyPort=8888 -Dhttps.proxyHost=192.168.65.2 -Dhttps.proxyPort=8888 -Djavax.net.ssl.trustStore=/workspaces/xxxx/FiddlerKeystore -Djavax.net.ssl.trustStorePassword=changeit`
+
+See also: https://stackoverflow.com/questions/8549749/how-to-capture-https-with-fiddler-in-java
 
 ## Resources
 

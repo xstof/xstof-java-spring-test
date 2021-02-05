@@ -20,8 +20,10 @@
             "mainClass": "fta.identity.sample.aad3authwithgroups.Aad3authApplication",
             "projectName": "aad3authwithgroups",
             "args": "--spring.profiles.active=local --logging.level.org.springframework=DEBUG",
-            // the below configures the jvm to work with fiddler proxy running outside of the dev container on the same machine:
-            "vmArgs": "-Dcom.sun.net.ssl.checkRevocation=false -Dtrust_all_cert=true -Dhttp.proxyHost=192.168.65.2 -Dhttp.proxyPort=8888 -Dhttps.proxyHost=192.168.65.2 -Dhttps.proxyPort=8888"
+            "vmArgs": "-Dcom.sun.net.ssl.checkRevocation=false -Dtrust_all_cert=true -Dhttp.proxyHost=192.168.65.2 -Dhttp.proxyPort=8888 -Dhttps.proxyHost=192.168.65.2 -Dhttps.proxyPort=8888 -Djavax.net.ssl.trustStore=/workspaces/spring-rest-api/FiddlerKeystore -Djavax.net.ssl.trustStorePassword=changeit",
+            // "env": {
+            //     "CATALINA_OPTS": "-Djavax.net.ssl.trustStore=/usr/local/openjdk-11/lib/security/cacerts -Djavax.net.ssl.trustStorePassword=changeit -Djavax.net.ssl.trustStoreType=jks -Dhttp.proxyHost=192.168.65.2 -Dhttp.proxyPort=8888 -Dhttps.proxyHost=192.168.65.2 -Dhttps.proxyPort=8888"
+            // }
         },
         {
             "type": "java",

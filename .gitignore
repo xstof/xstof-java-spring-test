@@ -1,2 +1,4 @@
 deploymentvars.sh
 application-dev.properties
+FiddlerKeystore
+FiddlerRoot.cer
