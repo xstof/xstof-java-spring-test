@@ -1,5 +1,6 @@
 {
     "configurations": [
+        
         {
             "type": "java",
             "name": "debug aad3auth",
@@ -20,10 +21,7 @@
             "mainClass": "fta.identity.sample.aad3authwithgroups.Aad3authApplication",
             "projectName": "aad3authwithgroups",
             "args": "--spring.profiles.active=local --logging.level.org.springframework=DEBUG",
-            "vmArgs": "-Dcom.sun.net.ssl.checkRevocation=false -Dtrust_all_cert=true -Dhttp.proxyHost=192.168.65.2 -Dhttp.proxyPort=8888 -Dhttps.proxyHost=192.168.65.2 -Dhttps.proxyPort=8888 -Djavax.net.ssl.trustStore=/workspaces/spring-rest-api/FiddlerKeystore -Djavax.net.ssl.trustStorePassword=changeit",
-            // "env": {
-            //     "CATALINA_OPTS": "-Djavax.net.ssl.trustStore=/usr/local/openjdk-11/lib/security/cacerts -Djavax.net.ssl.trustStorePassword=changeit -Djavax.net.ssl.trustStoreType=jks -Dhttp.proxyHost=192.168.65.2 -Dhttp.proxyPort=8888 -Dhttps.proxyHost=192.168.65.2 -Dhttps.proxyPort=8888"
-            // }
+            "vmArgs": "-Dcom.sun.net.ssl.checkRevocation=false -Dtrust_all_cert=true -Dhttp.proxyHost=192.168.65.2 -Dhttp.proxyPort=8888 -Dhttps.proxyHost=192.168.65.2 -Dhttps.proxyPort=8888 -Djavax.net.ssl.trustStore=/workspaces/spring-rest-api/FiddlerKeystore -Djavax.net.ssl.trustStorePassword=changeit"
         },
         {
             "type": "java",
@@ -35,6 +33,29 @@
             "mainClass": "fta.identity.sample.aad3authwithgroups.Aad3authApplication",
             "projectName": "aad3authwithgroups",
             "args": "--spring.profiles.active=local --logging.level.org.springframework=DEBUG"
+        },
+        {
+            "type": "java",
+            "name": "debug - aad3authwithaccesstoken",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/aad3auth-with-access-token/",
+            // "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "fta.identity.sample.aad3authwithaccesstoken.Aad3authApplication",
+            "projectName": "aad3authwithaccesstoken",
+            "args": "--spring.profiles.active=local --logging.level.org.springframework=DEBUG"
+        },
+        {
+            "type": "java",
+            "name": "debug with proxy - aad3authwithaccesstoken",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/aad3auth-with-access-token/",
+            // "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "fta.identity.sample.aad3authwithaccesstoken.Aad3authApplication",
+            "projectName": "aad3authwithaccesstoken",
+            "args": "--spring.profiles.active=local --logging.level.org.springframework=DEBUG",
+            "vmArgs": "-Dcom.sun.net.ssl.checkRevocation=false -Dtrust_all_cert=true -Dhttp.proxyHost=192.168.65.2 -Dhttp.proxyPort=8888 -Dhttps.proxyHost=192.168.65.2 -Dhttps.proxyPort=8888 -Djavax.net.ssl.trustStore=/workspaces/spring-rest-api/FiddlerKeystore -Djavax.net.ssl.trustStorePassword=changeit"
         }
     ]
 }

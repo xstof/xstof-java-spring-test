@@ -20,8 +20,18 @@ azure:
     client-secret: xxx
 ~~~
 
-When authcode is returned, redirect happens to: `/login/oauth2/code/{name of authorization client - in the sample: azure}`
-This is also how the app registration should be configured.
+### Flow
+
+- when browser visits a protected page, a redirect happens to: `/oauth/authorization/azure`
+- this causes Spring to reply with a redirect to AAD on `https://login.microsoftonline.com/xxx/oauth2/v2.0/authorize?response_type=code&client_id=xxx&scope=openid%20profile%20https://graph.microsoft.com/User.Read%20https://graph.microsoft.com/Directory.AccessAsUser.All&state=xxx&redirect_uri=http://localhost:8080/login/oauth2/code/azure&nonce=xxx`
+  - this means: an authcode flow asking for graph scopes: User.Read and Directory.AccessAsUser.All
+- After login authcode is passed back into localhost web app: `http://localhost:8080/login/oauth2/code/azure?code=XXX`.  Note that this is also how app registration should be configured.
+- The SDK will exchange the code for both id_token and access_token, again asking for scopes `openid profile https://graph.microsoft.com/User.Read https://graph.microsoft.com/Directory.AccessAsUser.All`
+  - in the access token (for the graph) there will not be any groups, as that app registration would not have been configured for this
+  - in the id_token there will be group (and role) information for the user if configured as such - however that is ignored by the SDK
+- the SDK will then take the access token and use it to access the graph with asking the group membership on `https://graph.microsoft.com/v1.0/me/memberOf`
+- That page will redirect to the protected page one wanted to visit.
+
 
 ### Authorities and Roles
 
@@ -62,7 +72,7 @@ To run the app with the environment called `local`:
 
 Run the application with tracing enabled: `./mvnw spring-boot:run -Dspring-boot.run.arguments=--logging.level.org.springframework=TRACE`
 
-**Using a proxy - THE BELOW DOES NOT WORK THOUGH IT SEEMS:**
+**Using a proxy:**
 Get the docker ip for localhost to connect from the dev container into Fidler locally:
 `nslookup host.docker.internal`
 
@@ -74,7 +84,7 @@ Then .cer certificate can be imported like this:
 
 Run the application with proxy settings: `./mvnw spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=local" -Dcom.sun.net.ssl.checkRevocation=false -Dtrust_all_cert=true -Dhttp.proxyHost=192.168.65.2 -Dhttp.proxyPort=8888 -Dhttps.proxyHost=192.168.65.2 -Dhttps.proxyPort=8888 -Djavax.net.ssl.trustStore=/workspaces/xxxx/FiddlerKeystore -Djavax.net.ssl.trustStorePassword=changeit`
 
-See also: https://stackoverflow.com/questions/8549749/how-to-capture-https-with-fiddler-in-java
+For more info see also: https://stackoverflow.com/questions/8549749/how-to-capture-https-with-fiddler-in-java
 
 ## Resources
 
@@ -85,5 +95,5 @@ See also: https://stackoverflow.com/questions/8549749/how-to-capture-https-with-
 - Open issue with setup from Jelle whereby code cannot be exchanged for token it seems
 - Admin consent is still required; this requirement should be lifted.  We see that the redirect to AAD looks like `https://login.microsoftonline.com/3fd11e85-d8ce-4c7f-b6a0-816346615777/oauth2/v2.0/authorize?response_type=code&client_id=35cea567-1674-40d4-95a4-e0bf5314f89f&`**scope=**`openid%20profile%20https://graph.microsoft.com/User.Read%20`**https://graph.microsoft.com/Directory.AccessAsUser.All**`&state=4q8qJIOav-gZFikcYKff1tBoel3RRUurqW5GHk74y-k%3D&redirect_uri=http://localhost:8080/login/oauth2/code/azure&nonce=I4KxJdTh7c6_fYXv2f4W20IZnSYla4g_jW2ph9C1xiQ`
   - the `AccessAsUser` scope is very broad, requires admin consent and should not be required for large majority of scenarios
-- Groups are not picked up or checked from id_token but probably rather from the access token.
+- Groups are not picked up or checked from id_token but probably rather from the access token and/or call to the graph.
 - 
