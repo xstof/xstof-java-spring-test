@@ -16,6 +16,8 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
@@ -66,7 +68,7 @@ public class IndexController {
         OAuth2AuthenticationToken authentication){
 
         Logger logger = LoggerFactory.getLogger(IndexController.class);
-        logger.info("authentication sample - entered authenticated controller");
+        logger.info("authentication sample - entered authenticated controller on /authenticated");
 
         model.addAttribute("authorities", authentication.getAuthorities().toArray());
         model.addAttribute("username", "TEST");
@@ -81,6 +83,28 @@ public class IndexController {
         // }
         
         return "authenticated";
+    }
+
+    @GetMapping("/api")
+    //@PreAuthorize("permitAll()")
+    //@PreAuthorize("isAuthenticated()")
+    public RedirectView AuthenticatedPage(
+        Model model,
+        OAuth2AuthenticationToken authentication,
+        @RegisteredOAuth2AuthorizedClient("someapi") OAuth2AuthorizedClient client,
+        RedirectAttributes attributes){
+
+        Logger logger = LoggerFactory.getLogger(IndexController.class);
+        logger.info("authentication sample - entered authenticated controller on /api");
+
+        model.addAttribute("authorities", authentication.getAuthorities().toArray());
+
+        // AAD roles that come in the incoming id_token are not translated into an Authority by default; rather can be found in the "roles" attribute of the principal, as follows:
+        logger.info("authentication sample - roles that were found in attributes of principal: {}", authentication.getPrincipal().getAttribute("roles").toString());
+
+        String token = client.getAccessToken().getTokenValue();
+        
+        return new RedirectView("https://jwt.ms/#access_token="+token);
     }
 
     @Autowired

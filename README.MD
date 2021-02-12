@@ -59,6 +59,15 @@ azure:
 
 Defining any group in here will not prevent the user from logging in, rather it will cause an authority to be created for any group the user is part of and is listed in the allowd-groups list.  Such authority will be named: `ROLE_Readers` for a group with name "Readers" for example.
 
+In order to enfore authorization based on a role, one needs to annotate the method, like:
+
+~~~java
+@PreAuthorize("hasRole('ROLE_Readers')")
+public String readers() {
+    return "readers message";
+}
+~~~
+
 ## AAD Authorization (fetching OAuth2 Access Tokens)
 
 ## Troubleshooting
@@ -98,4 +107,4 @@ For more info see also: https://stackoverflow.com/questions/8549749/how-to-captu
 - Groups are not picked up or checked from id_token but still come from a call to the graph.
   - Group membership can be read from the id_token without need for access token or more privileged access and/or admin consent
   - Groups are just translated into Authorities; we don't stop users based on group membership which is assumed is by design?
-- Roles are not picked up or checked from id_token
+- Roles are not picked up or checked from id_token.  We'd want first class role support.
